@@ -45,7 +45,7 @@ src/
 ## ⚙️ Installation & Setup
 
 ### 1. Prerequisites
-Ensure you have [Node.js](https://nodejs.org/) installed (LTS recommended).
+Ensure you have [Node.js](https://nodejs.org/) installed (LTS recommended) and **npm v11.10.0** or later required for security features.
 
 ### 2. Clone and Install
 ```bash

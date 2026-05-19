@@ -67,6 +67,7 @@ The project is a **Multi-Module Gradle Project** following an **Event-Driven Arc
 ### Prerequisites
 - **Java 21**
 - **Node.js** (LTS recommended)
+- **npm** (v11.10.0 or later required for security features)
 - **Docker & Docker Compose**
 - **Gradle** (Wrapper included)
 
