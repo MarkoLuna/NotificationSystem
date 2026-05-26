@@ -3,6 +3,7 @@ package com.users.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.notification.api.dto.PageResponse;
 import com.notification.api.dto.UserDto;
 import com.notification.api.model.NotificationCategory;
 import com.notification.api.model.NotificationChannel;
@@ -60,30 +61,68 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
-        return USERS;
+    public PageResponse<UserDto> getAllUsers(int page, int size) {
+        int totalElements = USERS.size();
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, totalElements);
+        
+        List<UserDto> content = fromIndex < totalElements 
+                ? USERS.subList(fromIndex, toIndex) 
+                : List.of();
+        
+        return PageResponse.of(content, page, size, totalElements);
     }
 
     @Override
-    public List<UserDto> getUsersBySubscribedCategory(NotificationCategory category) {
-        return USERS.stream()
+    public PageResponse<UserDto> getUsersBySubscribedCategory(NotificationCategory category, int page, int size) {
+        List<UserDto> filtered = USERS.stream()
                 .filter(user -> user.getSubscribedCategories().contains(category))
                 .toList();
+        
+        int totalElements = filtered.size();
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, totalElements);
+        
+        List<UserDto> content = fromIndex < totalElements 
+                ? filtered.subList(fromIndex, toIndex) 
+                : List.of();
+        
+        return PageResponse.of(content, page, size, totalElements);
     }
 
     @Override
-    public List<UserDto> getUsersByChannel(NotificationChannel channel) {
-        return USERS.stream()
+    public PageResponse<UserDto> getUsersByChannel(NotificationChannel channel, int page, int size) {
+        List<UserDto> filtered = USERS.stream()
                 .filter(user -> user.getChannels().contains(channel))
                 .toList();
+        
+        int totalElements = filtered.size();
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, totalElements);
+        
+        List<UserDto> content = fromIndex < totalElements 
+                ? filtered.subList(fromIndex, toIndex) 
+                : List.of();
+        
+        return PageResponse.of(content, page, size, totalElements);
     }
 
     @Override
-    public List<UserDto> getUsersByChannelAndCategory(NotificationChannel channel, NotificationCategory category) {
-        return USERS.stream()
+    public PageResponse<UserDto> getUsersByChannelAndCategory(NotificationChannel channel, NotificationCategory category, int page, int size) {
+        List<UserDto> filtered = USERS.stream()
                 .filter(user -> user.getChannels().contains(channel))
                 .filter(user -> user.getSubscribedCategories().contains(category))
                 .toList();
+        
+        int totalElements = filtered.size();
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, totalElements);
+        
+        List<UserDto> content = fromIndex < totalElements 
+                ? filtered.subList(fromIndex, toIndex) 
+                : List.of();
+        
+        return PageResponse.of(content, page, size, totalElements);
     }
 
 }

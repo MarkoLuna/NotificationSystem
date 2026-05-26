@@ -2,6 +2,7 @@ package com.email.notification.service.impl;
 
 import com.email.notification.service.UserService;
 import com.notification.api.client.UsersClient;
+import com.notification.api.dto.PageResponse;
 import com.notification.api.dto.UserDto;
 import com.notification.api.model.NotificationCategory;
 import com.notification.api.model.NotificationChannel;
@@ -23,7 +24,9 @@ public class UserServiceImpl implements UserService {
         log.trace("Getting users by channel and category: {} {}", channel, category);
 
         try {
-            return usersClient.getUsersByChannelAndCategory(channel, category);
+            // Use pagination with default values to fetch users
+            PageResponse<UserDto> pageResponse = usersClient.getUsersByChannelAndCategory(channel, category, 0, 100);
+            return pageResponse.getContent();
         } catch (Exception e) {
             log.warn("error loading users to notify", e);
             return List.of();

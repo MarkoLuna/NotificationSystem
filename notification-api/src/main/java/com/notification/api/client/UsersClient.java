@@ -1,5 +1,6 @@
 package com.notification.api.client;
 
+import com.notification.api.dto.PageResponse;
 import com.notification.api.dto.UserDto;
 import com.notification.api.model.NotificationCategory;
 import com.notification.api.model.NotificationChannel;
@@ -38,20 +39,24 @@ public class UsersClient {
     private final String clientSecret;
 
     /**
-     * Get users by channel and category.
+     * Get users by channel and category with pagination.
      * 
      * @param channel  notification channel
      * @param category notification category
-     * @return list of users
+     * @param page     page number (0-based)
+     * @param size     page size
+     * @return paginated response of users
      */
-    public List<UserDto> getUsersByChannelAndCategory(
+    public PageResponse<UserDto> getUsersByChannelAndCategory(
             @NonNull NotificationChannel channel,
-            @NonNull NotificationCategory category) {
+            @NonNull NotificationCategory category,
+            int page,
+            int size) {
 
         var authClientCreds = generateClientCredentials();
         if (authClientCreds.isEmpty()) {
             log.error("unable to generate authentication with client credentials");
-            return List.of();
+            return PageResponse.of(List.of(), page, size, 0);
         }
 
         HttpResponse<String> response = null;
@@ -59,6 +64,8 @@ public class UsersClient {
             URI uri = new URIBuilder(usersServiceHost + "/users")
                     .addParameter("channel", channel.name())
                     .addParameter("category", category.name())
+                    .addParameter("page", String.valueOf(page))
+                    .addParameter("size", String.valueOf(size))
                     .build();
 
             HttpRequest request = HttpRequest.newBuilder()
@@ -72,23 +79,28 @@ public class UsersClient {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {
             log.warn("failed to get auth credentials token", e);
-            return List.of();
+            return PageResponse.of(List.of(), page, size, 0);
         } catch (InterruptedException e) {
             log.warn("failed to get auth credentials token", e);
-            return List.of();
+            return PageResponse.of(List.of(), page, size, 0);
         } catch (URISyntaxException e) {
             log.warn("failed to get auth credentials token", e);
-            return List.of();
+            return PageResponse.of(List.of(), page, size, 0);
         }
 
         if (response.statusCode() == 200
                 && response.body() != null) {
-            return mapper.readValue(response.body(), new TypeReference<List<UserDto>>() {
-            });
+            try {
+                return mapper.readValue(response.body(), new TypeReference<PageResponse<UserDto>>() {
+                });
+            } catch (Exception e) {
+                log.warn("failed to parse paginated response", e);
+                return PageResponse.of(List.of(), page, size, 0);
+            }
         }
 
         log.warn("failed to get auth credentials token response {}", response);
-        return List.of();
+        return PageResponse.of(List.of(), page, size, 0);
     }
 
     /**

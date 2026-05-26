@@ -1,10 +1,10 @@
 package com.users.service;
 
+import com.notification.api.dto.PageResponse;
 import com.notification.api.dto.UserDto;
 import com.notification.api.model.NotificationCategory;
 import com.notification.api.model.NotificationChannel;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,11 +21,11 @@ public interface UserService {
 
     Optional<UserDto> getUserByPhoneNumber(String phoneNumber);
 
-    List<UserDto> getAllUsers();
+    PageResponse<UserDto> getAllUsers(int page, int size);
 
-    List<UserDto> getUsersBySubscribedCategory(NotificationCategory category);
+    PageResponse<UserDto> getUsersBySubscribedCategory(NotificationCategory category, int page, int size);
 
-    List<UserDto> getUsersByChannel(NotificationChannel channel);
+    PageResponse<UserDto> getUsersByChannel(NotificationChannel channel, int page, int size);
 
-    List<UserDto> getUsersByChannelAndCategory(NotificationChannel channel, NotificationCategory category);
+    PageResponse<UserDto> getUsersByChannelAndCategory(NotificationChannel channel, NotificationCategory category, int page, int size);
 }
