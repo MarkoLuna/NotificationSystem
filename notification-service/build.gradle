@@ -20,6 +20,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     
+    // Mongock for MongoDB schema migration
+    implementation 'io.mongock:mongock-springboot:5.4.4'
+    implementation 'io.mongock:mongock-apis:5.4.4'
+    implementation 'io.mongock:mongodb-springdata-v3-driver:5.4.4'
+    
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
