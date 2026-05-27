@@ -1,4 +1,4 @@
-package com.sms.sms.service;
+package com.notification.consumer.common.service;
 
 import com.notification.api.dto.UserDto;
 import com.notification.api.model.NotificationCategory;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Service for getting users by channel and category.
  */
-public interface UserService {
+public interface CommonUserService {
 
     /**
      * Get users by channel and category.

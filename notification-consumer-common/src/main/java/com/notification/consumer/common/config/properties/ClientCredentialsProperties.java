@@ -1,4 +1,4 @@
-package com.push.notification.config.properties;
+package com.notification.consumer.common.config.properties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

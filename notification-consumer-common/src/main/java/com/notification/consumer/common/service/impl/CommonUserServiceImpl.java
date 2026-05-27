@@ -1,11 +1,11 @@
-package com.email.notification.service.impl;
+package com.notification.consumer.common.service.impl;
 
-import com.email.notification.service.UserService;
 import com.notification.api.client.UsersClient;
 import com.notification.api.dto.PageResponse;
 import com.notification.api.dto.UserDto;
 import com.notification.api.model.NotificationCategory;
 import com.notification.api.model.NotificationChannel;
+import com.notification.consumer.common.service.CommonUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class CommonUserServiceImpl implements CommonUserService {
 
     private final UsersClient usersClient;
 

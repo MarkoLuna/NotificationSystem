@@ -1,4 +1,4 @@
-package com.push.notification.config;
+package com.notification.consumer.common.config;
 
 import com.notification.api.dto.NotificationMessage;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 @EnableKafka
 @Configuration
-public class KafkaConsumerConfig {
+public class CommonKafkaConsumerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
