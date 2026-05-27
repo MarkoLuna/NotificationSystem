@@ -196,7 +196,13 @@ With the system running on Kubernetes, the following enhancements are recommende
 - **Kafka Concurrency & Partitioning**:
     - **Topic Partitioning**: Increase partition counts for high-traffic topics to allow more consumer instances to work in parallel within a consumer group.
     - **Consumer Concurrency**: Tune the `spring.kafka.consumer.concurrency` property (supported in the consumer modules) to allow a single pod to spin up multiple listener threads. This optimizes resource utilization by processing multiple partitions per pod, reducing the need for excessive horizontal pod scaling for high-partition topics.
-- **MongoDB Indexing & Sharding**:
+- **MongoDB Optimization**:
+  - **Migration Strategy**: Implement a migration strategy for MongoDB to handle schema changes and data migrations.
+  - **Deployment Strategy**: Deploy MongoDB as a replica set for high availability and automatic failover.
+  - **Backup & Restore**: Implement automated backup and restore procedures for MongoDB to ensure data durability and disaster recovery.
+  - **Connection Pooling**: Configure connection pooling in the MongoDB driver to handle concurrent database operations efficiently.
+  - **Read Preferences**: Configure read preferences to route read operations to secondary nodes for improved read scalability.
+  - **MongoDB Indexing & Sharding**:
     - **Indexing Strategy**: Maintain compound indexes on frequently queried fields, such as `{creator: 1, id: 1}` for user-specific notification history and `{channel: 1, category: 1}` for high-performance filtering. These indexes ensure O(log n) search complexity as the notification store grows into millions of records.
     - **Sharding**: Implement sharding for the notifications collection to distribute write load and storage across multiple worker nodes, using a shard key that aligns with query patterns (e.g., `creator`).
 - **Redis Caching**: Deploy a Redis cluster to cache subscriber preferences and session data, reducing latency for `user-service` lookups.
@@ -204,4 +210,11 @@ With the system running on Kubernetes, the following enhancements are recommende
 ### 3. Resilience & Reliability
 - **Circuit Breakers (Resilience4j)**: Protect services from cascading failures, especially during inter-service communication with `user-service`.
 - **Dead Letter Queues (DLQ)**: Ensure that failed delivery attempts are routed to a separate Kafka topic for retry or manual intervention.
+
+### 4. Advanced Observability
+- **Service Mesh (Istio / Linkerd)**: Implement a service mesh for advanced traffic management, mTLS security, and deep observability between services.
+- **Prometheus & Grafana**: Set up comprehensive monitoring for K8s cluster health and application-level metrics (e.g., Kafka lag, notification throughput).
+- **Distributed Tracing (Jaeger)**: Trace requests as they move from the React frontend through the orchestrator into Kafka and out through the consumers.
+
+---
 
